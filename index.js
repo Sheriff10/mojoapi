@@ -76,8 +76,10 @@ app.post('/signup', async (req, res) => {
   if(countUsername > 0) {
     res.send('username err')
   }
-  if(countEmail > 0) {
-    res.send('email err')
+  if (countUsername == 0) {
+    if(countEmail > 0) {
+      res.send('email err')
+    }
   }
   if (countUsername == 0 && countEmail == 0){
     db.collection('users').insertOne(data, (err, result) =>{
