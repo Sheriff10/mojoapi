@@ -20,7 +20,7 @@ mongoose.connection.on('error', err => {
 });
 
 app.get('/', (req, res) => {
-  db.collection('payouts').find({}).toArray().then(result => {
+  db.collection('users').find({}).toArray().then(result => {
     res.send(result)
   }).catch(err => {
     console.log(err);
