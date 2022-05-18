@@ -1,0 +1,30 @@
+###
+POST http://localhost:4000/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "tst",
+    "email": "testemail",
+    "password": "12345"
+}
+
+###
+POST http://localhost:4000/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Sheezey",
+    "password": "12345"
+}
+
+###
+POST http://localhost:4000/mine HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "ibrahimsheriff999@gmail.com"
+}
+
+
+###
+GET http://localhost:4000/
