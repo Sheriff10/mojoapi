@@ -19,16 +19,16 @@ mongoose.connection.on('error', err => {
   logError(err);
 });
 
-app.get('/', (req, res) => {
-  db.collection('users').find({}).toArray().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log(err);
-  })
-  // db.collection('users').drop()
-  // db.collection('payouts').drop()
-  // db.collection('deposits').drop()
-})
+// app.get('/', (req, res) => {
+//   db.collection('users').find({}).toArray().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log(err);
+//   })
+//   // db.collection('users').drop()
+//   // db.collection('payouts').drop()
+//   // db.collection('deposits').drop()
+// })
 
 app.post('/signup', async (req, res) => {
   const {username, email, password, upline} = req.body
@@ -144,7 +144,7 @@ app.post('/deposit', async (req, res) => {
     active: 0,
     Date: `${date.getDate()}-${date.getMonth() +1}-${date.getFullYear()}`
   };
-  if (req.body.amount < 30) {res.send('err')}
+  if (req.body.amount < 10) {res.send('err')}
   else{
     var hash = req.body.hash
     const findHash = await db.collection('deposits').find({hash}).toArray();
@@ -308,7 +308,7 @@ app.post('/mine', async (req, res) => {
   // find deposit and filtering the active one
   const findDepo = await db.collection('deposits').find({email, status: 'confirmed'}).toArray();
   const fincActiveDepo = findDepo.filter(i => {
-    return i.active < 60
+    return i.active <= 60
   });
   let total_investment = 0;
   for (i of fincActiveDepo) {
@@ -333,11 +333,11 @@ app.post('/mine', async (req, res) => {
     }
 
     if (days > 30) {
-      const commission = (total_investment * (5/100)) * (days - 70);
+      const commission = (total_investment * (4/100)) * (days - 70);
       db.collection('users').updateOne({email}, {$set: {balance: parseInt(user_cBal) + commission, login: update_cDate()}});
     }
     else{
-      const commission = (total_investment * (5/100)) * days;
+      const commission = (total_investment * (4/100)) * days;
       db.collection('users').updateOne({email}, {$set: {balance: user_cBal + commission, login: update_cDate()}});
     }
     const getUser2 = await db.collection('users').find({email}).toArray()
