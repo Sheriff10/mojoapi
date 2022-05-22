@@ -320,15 +320,15 @@ app.post('/mine', async (req, res) => {
     const days = update_cDate() - pLog;
 
     // function for updating deposit active days
-    const updateActive =async  id => {
+    const updateActive =async  (id, days) => {
       const getActive = await db.collection('deposits').find({id}).toArray();
       const getActiveDays = parseInt(getActive[0].active)
-      await db.collection('deposits').updateOne({id}, {$set: {active: getActiveDays +1}})
+      await db.collection('deposits').updateOne({id}, {$set: {active: getActiveDays + parseInt(days)}})
     }
 
     if (days !== 0){
       for (i of fincActiveDepo){
-        updateActive(i.id)
+        updateActive(i.id, days)
       }
     }
 
