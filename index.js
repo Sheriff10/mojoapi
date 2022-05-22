@@ -86,7 +86,7 @@ app.post('/signup', async (req, res) => {
       if (err) throw err
       res.send('inserted')
     });
-    const getUpline = await db.collection('users').find({id: upline}).toArray();
+    const getUpline = await db.collection('users').find({id: parseInt(upline)}).toArray();
     if (getUpline .length > 0) {
       const getUplineRefs = parseInt(getUpline[0].ref);
       db.collection('users').updateOne({id: upline}, {$set: {ref: getUplineRefs +1}});
