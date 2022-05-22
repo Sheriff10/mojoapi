@@ -39,7 +39,7 @@ app.post('/signup', async (req, res) => {
     month: date.getUTCMonth() +1,
     date: date.getDate(),
   }
-  // JNSJNN
+  // JNSJNNmsdms
 
   const update_cDate = () => {
      var t = '' + date_obj.date + ''
