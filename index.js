@@ -189,7 +189,7 @@ app.post('/payout', async (req, res) => {
     status: 'pending',
     Date: `${date.getDate()}-${date.getMonth() +1}-${date.getFullYear()}`
   }
-  if (amt < 10) res.send("min err");
+  if (amt < 1) res.send("min err");
   if (amt > getBal) res.send('bal err');
   else{
     db.collection('payouts').insertOne(payout_data, (err, result) => {
