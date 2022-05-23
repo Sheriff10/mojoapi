@@ -141,32 +141,34 @@ app.post('/deposit', async (req, res) => {
   }
 
 
-  const count_depo = await db.collection('deposits').find({}).toArray()
-  const deposit_data = {
-    id: count_depo.length +1,
-    amount: req.body.amount,
-    email: req.body.email,
-    hash: req.body.hash,
-    status: 'pending',
-    dep_date: update_cDate(),
-    active: 0,
-    Date: `${date.getDate()}-${date.getMonth() +1}-${date.getFullYear()}`
-  };
-  if (req.body.amount < 10) {res.send('err')}
-  else{
-    var hash = req.body.hash
-    const findHash = await db.collection('deposits').find({hash}).toArray();
-    const countHash = findHash.length
-
-    if (countHash > 0) res.send('hash err')
+   db.collection('deposits').find({}).toArray((err, result) => {
+    const deposit_data = {
+      id: result.length +1,
+      amount: req.body.amount,
+      email: req.body.email,
+      hash: req.body.hash,
+      status: 'pending',
+      dep_date: update_cDate(),
+      active: 0,
+      Date: `${date.getDate()}-${date.getMonth() +1}-${date.getFullYear()}`
+    };
+    if (req.body.amount < 10) {res.send('err')}
     else{
-      db.collection('deposits').insertOne(deposit_data, (err, result) => {
-        if (err) throw err
-        res.send('done');
-      });
+      var hash = req.body.hash
+      const findHash = await db.collection('deposits').find({hash}).toArray();
+      const countHash = findHash.length
+  
+      if (countHash > 0) res.send('hash err')
+      else{
+        db.collection('deposits').insertOne(deposit_data, (err, result) => {
+          if (err) throw err
+          res.send('done');
+        });
+      }
     }
-  }
-})
+  })
+   })
+
 
 app.get('/getdeposit/:email', (req, res) => {
   const email = req.params.email
