@@ -17,6 +17,7 @@ db.openUri('mongodb+srv://mojoapi_db:AkB03c4F4D9Mx3Pg@cluster0.hboo7.mongodb.net
 useUnifiedTopology: true,});
 mongoose.connection.on('error', err => {
   logError(err);
+  console.log("database Err");
 });
 
 // app.get('/', (req, res) => {
