@@ -17,7 +17,6 @@ db.openUri('mongodb+srv://mojoapi_db:AkB03c4F4D9Mx3Pg@cluster0.hboo7.mongodb.net
 useUnifiedTopology: true,});
 mongoose.connection.on('error', err => {
   logError(err);
-  console.log("database Err");
 });
 
 // app.get('/', (req, res) => {
@@ -50,76 +49,68 @@ app.post('/signup', async (req, res) => {
       return parseInt(date_obj.month+''+date_obj.date)
     }
   }
-  // shsn
   const login = update_cDate();
-  db.collection('users').find({}).toArray(async (err, result) => {
-    if (err) console.log(err);
-    const data = {
-      id: result.length +1,
-      username, 
-      email, 
-      upline,
-      balance: 0,
-      password: hashPassword,
-      ref: 0,
-      ref_earning: 0,
-      total_deposit: 0,
-      total_payout: 0,
-      login
-    }
-  
-    // check username
-    const checkUsername = await db.collection('users').find({username}).toArray();
-    const countUsername = checkUsername.length
-    // check email
-    const checkEmail = await db.collection('users').find({email}).toArray();
-    const countEmail = checkEmail.length
-  
-    // create response
-    if(countUsername > 0) {
-      res.send('username err')
-    }
-    if (countUsername == 0) {
-      if(countEmail > 0) {
-        res.send('email err')
-      }
-    }
-    if (countUsername == 0 && countEmail == 0){
-      db.collection('users').insertOne(data, (err, result) =>{
-        if (err) throw err
-        res.send('inserted')
-      });
-      const getUpline = await db.collection('users').find({id: parseInt(upline)}).toArray();
-      if (getUpline .length > 0) {
-        const getUplineRefs = parseInt(getUpline[0].ref);
-        db.collection('users').updateOne({id: upline}, {$set: {ref: getUplineRefs +1}});
-      }
-    }
-  })
+  const getId = (await db.collection('users').find({}).toArray()).length
 
-  
+  const data = {
+    id: getId +1,
+    username, 
+    email, 
+    upline,
+    balance: 0,
+    password: hashPassword,
+    ref: 0,
+    ref_earning: 0,
+    total_deposit: 0,
+    total_payout: 0,
+    login
+  }
+
+  // check username
+  const checkUsername = await db.collection('users').find({username}).toArray();
+  const countUsername = checkUsername.length
+  // check email
+  const checkEmail = await db.collection('users').find({email}).toArray();
+  const countEmail = checkEmail.length
+
+  // create response
+  if(countUsername > 0) {
+    res.send('username err')
+  }
+  if (countUsername == 0) {
+    if(countEmail > 0) {
+      res.send('email err')
+    }
+  }
+  if (countUsername == 0 && countEmail == 0){
+    db.collection('users').insertOne(data, (err, result) =>{
+      if (err) throw err
+      res.send('inserted')
+    });
+    const getUpline = await db.collection('users').find({id: parseInt(upline)}).toArray();
+    if (getUpline .length > 0) {
+      const getUplineRefs = parseInt(getUpline[0].ref);
+      db.collection('users').updateOne({id: upline}, {$set: {ref: getUplineRefs +1}});
+    }
+  }
 })
 
 
-// LOGINsgt
+// LOGINs ssjsj
 app.post('/login', async (req, res) => {
   const {username, password} = req.body
 
-   db.collection('users').find({username}).toArray( async (err, result) => {
-     if (err) console.log(err);
-
-     const countUser = result.length
+  const findUser = await db.collection('users').find({username}).toArray();
+  const countUser = findUser.length
 
   if (countUser == 1)  {
-    const getHash = result[0].password
+    const getHash = findUser[0].password
     const comparePass = await bcrypt.compare(password, getHash)
     
-    if (comparePass) res.send(result);
+    if (comparePass) res.send(findUser);
     else res.send('invalid');
   }
   else res.send('invalid');
-   });
-  
 })
 
  
@@ -143,39 +134,37 @@ app.post('/deposit', async (req, res) => {
   }
 
 
-   db.collection('deposits').find({}).toArray(async (err, result) => {
-    const deposit_data = {
-      id: result.length +1,
-      amount: req.body.amount,
-      email: req.body.email,
-      hash: req.body.hash,
-      status: 'pending',
-      dep_date: update_cDate(),
-      active: 0,
-      Date: `${date.getDate()}-${date.getMonth() +1}-${date.getFullYear()}`
-    };
-    if (req.body.amount < 10) {res.send('err')}
-    else{
-      var hash = req.body.hash
-      const findHash = await db.collection('deposits').find({hash}).toArray();
-      const countHash = findHash.length
-  
-      if (countHash > 0) res.send('hash err')
-      else{
-        db.collection('deposits').insertOne(deposit_data, (err, result) => {
-          if (err) throw err
-          res.send('done');
-        });
-      }
-    }
-  })
-   })
+  const count_depo = await db.collection('deposits').find({}).toArray()
+  const deposit_data = {
+    id: count_depo.length +1,
+    amount: req.body.amount,
+    email: req.body.email,
+    hash: req.body.hash,
+    status: 'pending',
+    dep_date: update_cDate(),
+    active: 0,
+    Date: `${date.getDate()}-${date.getMonth() +1}-${date.getFullYear()}`
+  };
+  if (req.body.amount < 10) {res.send('err')}
+  else{
+    var hash = req.body.hash
+    const findHash = await db.collection('deposits').find({hash}).toArray();
+    const countHash = findHash.length
 
+    if (countHash > 0) res.send('hash err')
+    else{
+      db.collection('deposits').insertOne(deposit_data, (err, result) => {
+        if (err) throw err
+        res.send('done');
+      });
+    }
+  }
+})
 
 app.get('/getdeposit/:email', (req, res) => {
   const email = req.params.email
 
-  db.collection('deposits').find({email}).toArray(async (err, result) => {
+  db.collection('deposits').find({email}).toArray((err, result) => {
     if (err) throw err
     res.send(result);
   })
