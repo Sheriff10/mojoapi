@@ -141,7 +141,7 @@ app.post('/deposit', async (req, res) => {
   }
 
 
-   db.collection('deposits').find({}).toArray((err, result) => {
+   db.collection('deposits').find({}).toArray(async (err, result) => {
     const deposit_data = {
       id: result.length +1,
       amount: req.body.amount,
