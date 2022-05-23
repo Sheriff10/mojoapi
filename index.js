@@ -50,7 +50,7 @@ app.post('/signup', async (req, res) => {
     }
   }
   const login = update_cDate();
-  db.collection('users').find({}).toArray((err, result) => {
+  db.collection('users').find({}).toArray(async (err, result) => {
     if (err) console.log(err);
     const data = {
       id: result.length +1,
