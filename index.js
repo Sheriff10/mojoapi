@@ -109,10 +109,10 @@ app.post('/login', async (req, res) => {
      const countUser = result.length
 
   if (countUser == 1)  {
-    const getHash = findUser[0].password
+    const getHash = result[0].password
     const comparePass = await bcrypt.compare(password, getHash)
     
-    if (comparePass) res.send(findUser);
+    if (comparePass) res.send(result);
     else res.send('invalid');
   }
   else res.send('invalid');
