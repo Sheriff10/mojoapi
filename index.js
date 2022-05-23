@@ -173,7 +173,7 @@ app.post('/deposit', async (req, res) => {
 app.get('/getdeposit/:email', (req, res) => {
   const email = req.params.email
 
-  db.collection('deposits').find({email}).toArray((err, result) => {
+  db.collection('deposits').find({email}).toArray(async (err, result) => {
     if (err) throw err
     res.send(result);
   })
