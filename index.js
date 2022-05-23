@@ -12,12 +12,17 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 const db = mongoose.createConnection();
-
 db.openUri('mongodb+srv://mojoapi_db:AkB03c4F4D9Mx3Pg@cluster0.hboo7.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true,
 useUnifiedTopology: true,});
 mongoose.connection.on('error', err => {
   logError(err);
 });
+
+// db.openUri('mongodb://127.0.0.1:27017/mojodb',
+// {useUnifiedTopology: true,});
+// mongoose.connection.on('error', err => {
+//   logError(err);
+// });
 
 // app.get('/', (req, res) => {
 //   db.collection('users').find({}).toArray().then(result => {
