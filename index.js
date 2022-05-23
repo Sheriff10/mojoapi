@@ -101,7 +101,7 @@ app.post('/signup', async (req, res) => {
 })
 
 
-// LOGINs
+// LOGINsgt
 app.post('/login', async (req, res) => {
   const {username, password} = req.body
 
