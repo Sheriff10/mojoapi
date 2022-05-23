@@ -96,12 +96,14 @@ app.post('/signup', async (req, res) => {
 })
 
 
-// LOGINs ssjsj
+// LOGINs
 app.post('/login', async (req, res) => {
   const {username, password} = req.body
 
-  const findUser = await db.collection('users').find({username}).toArray();
-  const countUser = findUser.length
+   db.collection('users').find({username}).toArray( (err, result) => {
+     if (err) console.log(err);
+
+     const countUser = result.length
 
   if (countUser == 1)  {
     const getHash = findUser[0].password
@@ -111,6 +113,8 @@ app.post('/login', async (req, res) => {
     else res.send('invalid');
   }
   else res.send('invalid');
+   });
+  
 })
 
  
