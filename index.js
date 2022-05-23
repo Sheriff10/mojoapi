@@ -49,6 +49,7 @@ app.post('/signup', async (req, res) => {
       return parseInt(date_obj.month+''+date_obj.date)
     }
   }
+  // shsn
   const login = update_cDate();
   db.collection('users').find({}).toArray(async (err, result) => {
     if (err) console.log(err);
