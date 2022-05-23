@@ -100,7 +100,7 @@ app.post('/signup', async (req, res) => {
 app.post('/login', async (req, res) => {
   const {username, password} = req.body
 
-   db.collection('users').find({username}).toArray( (err, result) => {
+   db.collection('users').find({username}).toArray( async (err, result) => {
      if (err) console.log(err);
 
      const countUser = result.length
