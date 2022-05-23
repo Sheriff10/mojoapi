@@ -50,49 +50,52 @@ app.post('/signup', async (req, res) => {
     }
   }
   const login = update_cDate();
-  const getId = (await db.collection('users').find({}).toArray()).length
-
-  const data = {
-    id: getId +1,
-    username, 
-    email, 
-    upline,
-    balance: 0,
-    password: hashPassword,
-    ref: 0,
-    ref_earning: 0,
-    total_deposit: 0,
-    total_payout: 0,
-    login
-  }
-
-  // check username
-  const checkUsername = await db.collection('users').find({username}).toArray();
-  const countUsername = checkUsername.length
-  // check email
-  const checkEmail = await db.collection('users').find({email}).toArray();
-  const countEmail = checkEmail.length
-
-  // create response
-  if(countUsername > 0) {
-    res.send('username err')
-  }
-  if (countUsername == 0) {
-    if(countEmail > 0) {
-      res.send('email err')
+  db.collection('users').find({}).toArray((err, result) => {
+    if (err) console.log(err);
+    const data = {
+      id: result.length +1,
+      username, 
+      email, 
+      upline,
+      balance: 0,
+      password: hashPassword,
+      ref: 0,
+      ref_earning: 0,
+      total_deposit: 0,
+      total_payout: 0,
+      login
     }
-  }
-  if (countUsername == 0 && countEmail == 0){
-    db.collection('users').insertOne(data, (err, result) =>{
-      if (err) throw err
-      res.send('inserted')
-    });
-    const getUpline = await db.collection('users').find({id: parseInt(upline)}).toArray();
-    if (getUpline .length > 0) {
-      const getUplineRefs = parseInt(getUpline[0].ref);
-      db.collection('users').updateOne({id: upline}, {$set: {ref: getUplineRefs +1}});
+  
+    // check username
+    const checkUsername = await db.collection('users').find({username}).toArray();
+    const countUsername = checkUsername.length
+    // check email
+    const checkEmail = await db.collection('users').find({email}).toArray();
+    const countEmail = checkEmail.length
+  
+    // create response
+    if(countUsername > 0) {
+      res.send('username err')
     }
-  }
+    if (countUsername == 0) {
+      if(countEmail > 0) {
+        res.send('email err')
+      }
+    }
+    if (countUsername == 0 && countEmail == 0){
+      db.collection('users').insertOne(data, (err, result) =>{
+        if (err) throw err
+        res.send('inserted')
+      });
+      const getUpline = await db.collection('users').find({id: parseInt(upline)}).toArray();
+      if (getUpline .length > 0) {
+        const getUplineRefs = parseInt(getUpline[0].ref);
+        db.collection('users').updateOne({id: upline}, {$set: {ref: getUplineRefs +1}});
+      }
+    }
+  })
+
+  
 })
 
 
