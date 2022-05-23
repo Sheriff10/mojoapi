@@ -287,7 +287,7 @@ app.post('/mine', async (req, res) => {
   const {email} = req.body
 
   const date = new Date()
-  const date_obj = {  // object Constrution
+  const date_obj = {  // object Construtionj
     month: date.getUTCMonth() +1,
     date: date.getUTCDate(),
   } 
