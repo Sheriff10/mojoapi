@@ -3,9 +3,10 @@ POST http://localhost:4000/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "tst",
-    "email": "testemail",
-    "password": "12345"
+    "username": "Sheezeysql12",
+    "email": "sqltest12",
+    "password": "12345",
+    "upline": "11"
 }
 
 ###
@@ -13,18 +14,50 @@ POST http://localhost:4000/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "Sheezey",
+    "username": "Sheezeysql4",
     "password": "12345"
 }
 
+###
+POST http://localhost:4000/deposit HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "testemail",
+    "hash": "8289717312b1f8c720c8c730215ba18e4ec80a97575d7d108c120f8a37b3b57b9e",
+    "amount": "16"
+}
+
+###
+POST http://localhost:4000/payout HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "tst",
+    "amount": 36,
+    "address": "njeu73yhnej38njddjeu83u8393j"
+}
 ###
 POST http://localhost:4000/mine HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "ibrahimsheriff999@gmail.com"
+    "email": "testemail"
 }
 
+###
+POST http://localhost:4000/condeposit HTTP/1.1
+Content-Type: application/json
+
+{
+    "amount": 10, "email": "testemail", "id": 1, "status": "cancelled"
+}
 
 ###
 GET http://localhost:4000/
+
+###
+GET http://localhost:4000/getpayout/tst
+
+###
+GET http://localhost:4000/penwithdrawal
