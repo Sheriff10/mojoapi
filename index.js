@@ -127,12 +127,13 @@ app.post('/login', async (req, res) => {
 
 con.query(findUser, async (err, result) => {
   if (err) console.log(err);
-  if (result.length !== 1) res.send('invalid')
   if (result.length > 0 ) {
     const getHash = result[0].password
     const comparePass = await bcrypt.compare(password, getHash)
     if(comparePass) res.send(result);
     else res.send('invalid')
+  }else{
+    res.send('invalid')
   }
 })
 
