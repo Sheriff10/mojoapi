@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 
 const SqlString = require('mysql/lib/protocol/SqlString');
-var con = mysql.createConnection({
+var con = mysql.createPool({
   host     : 'sql11.freemysqlhosting.net',
   user     : 'sql11494855',
   password : 'tJ7C7YpzLu',
