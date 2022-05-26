@@ -3,7 +3,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-var mysql      = require('mysql');
+
+const con = require('./dbConnect')
 
 
 const app = express();
@@ -14,20 +15,20 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 
-const SqlString = require('mysql/lib/protocol/SqlString');
-var con = mysql.createConnection({
-  host     : 'sql11.freemysqlhosting.net',
-  user     : 'sql11494855',
-  password : 'tJ7C7YpzLu',
-  database : 'sql11494855'
-});
-con.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
-  console.log('connected as id ' + con.threadId);
-});
+// const SqlString = require('mysql/lib/protocol/SqlString');
+// var con = mysql.createConnection({
+//   host     : 'sql11.freemysqlhosting.net',
+//   user     : 'sql11494855',
+//   password : 'tJ7C7YpzLu',
+//   database : 'sql11494855'
+// });
+// con.connect(function(err) {
+//   if (err) {
+//     console.error('error connecting: ' + err.stack);
+//     return;
+//   }
+//   console.log('connected as id ' + con.threadId);
+// });
 
 
 
