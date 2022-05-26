@@ -140,7 +140,7 @@ con.query(findUser, async (err, result) => {
 })
 
  
-// // DEPPOSIT
+// // DEPPOSIT errr1
 app.post('/deposit', async (req, res) => {
   // construct date
   const date = new Date()
