@@ -21,13 +21,13 @@ var con = mysql.createPool({
   password : 'tJ7C7YpzLu',
   database : 'sql11494855'
 });
-con.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
-  console.log('connected as id ' + con.threadId);
-});
+// con.connect(function(err) {
+//   if (err) {
+//     console.error('error connecting: ' + err.stack);
+//     return;
+//   }
+//   console.log('connected as id ' + con.threadId);
+// });
 
 
 
