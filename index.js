@@ -15,19 +15,19 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 
 const SqlString = require('mysql/lib/protocol/SqlString');
-var con = mysql.createPool({
+var con = mysql.createConnection({
   host     : 'sql11.freemysqlhosting.net',
   user     : 'sql11494855',
   password : 'tJ7C7YpzLu',
   database : 'sql11494855'
 });
-// con.connect(function(err) {
-//   if (err) {
-//     console.error('error connecting: ' + err.stack);
-//     return;
-//   }
-//   console.log('connected as id ' + con.threadId);
-// });
+con.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+  console.log('connected as id ' + con.threadId);
+});
 
 
 
@@ -45,6 +45,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
+  con.end()
   const {username, email, password, upline} = req.body
   const date = new Date()
   const hashPassword = await bcrypt.hash(password, 10);
