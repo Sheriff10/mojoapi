@@ -45,7 +45,6 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-  con.end()
   const {username, email, password, upline} = req.body
   const date = new Date()
   const hashPassword = await bcrypt.hash(password, 10);
