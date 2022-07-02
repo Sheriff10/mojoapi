@@ -358,7 +358,7 @@ app.post("/mine", async (req, res) => {
       con.query(findDepo, (err, result) => {
         if (err) console.log(err);
         const fincActiveDepo = result.filter((i) => {
-          return i.active <= 20;
+          return i.active <= 1;
         });
         let total_investment = 0;
         for (i of fincActiveDepo) {
